@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "gis-exploration"
+  site-url: "https://bachaudhry.github.io/gis-exploration"
+  description: "Repo containing all preliminary work relating to Geospatial Data Analysis and Modeling for upcoming projects."
+  repo-branch: main
+  repo-url: "https://github.com/bachaudhry/gis-exploration"
