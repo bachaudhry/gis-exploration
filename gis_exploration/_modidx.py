@@ -2,9 +2,7 @@
 
 d = { 'settings': { 'branch': 'main',
                 'doc_baseurl': '/gis-exploration',
-                'doc_host': 'https://bachaudhry\n\nrequirements = fastcore pandas rasterio PIL random os numpy matplotlib.pyplot.github.io',
-                'git_url': 'https://github.com/bachaudhry\n'
-                           '\n'
-                           'requirements = fastcore pandas rasterio PIL random os numpy matplotlib.pyplot/gis-exploration',
+                'doc_host': 'https://bachaudhry.github.io',
+                'git_url': 'https://github.com/bachaudhry/gis-exploration',
                 'lib_path': 'gis_exploration'},
   'syms': {'gis_exploration.core': {'gis_exploration.core.foo': ('core.html#foo', 'gis_exploration/core.py')}}}
