@@ -152,4 +152,5 @@ checklink/cookies.txt
 .quarto
 
 # Local copies of datasets
+data
 data/downloads
