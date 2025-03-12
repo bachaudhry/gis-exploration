@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Download and Explore Satellite Imagery Data for Floods – gis-exploration</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-ae44de7e3b26b230a7801128389852ee.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="Download and Explore Satellite Imagery Data for Floods – gis-exploration">
+<meta property="og:description" content="Repo containing all preliminary work relating to Geospatial Data Analysis and Modeling for upcoming projects.">
+<meta property="og:site_name" content="gis-exploration">
+<meta name="twitter:title" content="Download and Explore Satellite Imagery Data for Floods – gis-exploration">
+<meta name="twitter:description" content="Repo containing all preliminary work relating to Geospatial Data Analysis and Modeling for upcoming projects.">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">gis-exploration</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><strong>Download and Explore Satellite Imagery Data for Floods</strong></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gis-exploration</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">core</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><strong>Download and Explore Satellite Imagery Data for Floods</strong></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sen1floods11" id="toc-sen1floods11" class="nav-link active" data-scroll-target="#sen1floods11">Sen1Floods11</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/bachaudhry/gis-exploration/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="data.html.md"><i class="bi bi-file-code"></i>CommonMark</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><strong>Download and Explore Satellite Imagery Data for Floods</strong></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- WARNING: THIS FILE WAS AUTOGENERATED! DO NOT EDIT! -->
+<div id="cdc573df-0a60-4f46-ba65-f171dbc5eb32" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random, os, gc, psutil, glob, re, multiprocessing <span class="co"># mem management, parallel processing &amp; file handling</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> time <span class="im">import</span> time</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm.notebook <span class="im">import</span> tqdm <span class="co"># Progress bars</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> Parallel, delayed</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Geospatial libraries</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio.plot <span class="im">import</span> show</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, Polygon</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> CRS <span class="co">#python interface to PROJ (cartographic projections and coordinate transformations lib)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Image Processing</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> skimage <span class="im">import</span> exposure, filters, morphology</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6f877f1e-da35-4780-b3f8-c721c3069101" class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sen1floods11" class="level2">
+<h2 class="anchored" data-anchor-id="sen1floods11">Sen1Floods11</h2>
+<p>This data’s citation is: &gt; Bonafilia, D., Tellman, B., Anderson, T., Issenberg, E. 2020. Sen1Floods11: a georeferenced dataset to train and test deep learning flood algorithms for Sentinel-1. The IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops, 2020, pp.&nbsp;210-211.</p>
+<p><a href="http://openaccess.thecvf.com/content_CVPRW_2020/html/w11/Bonafilia_Sen1Floods11_A_Georeferenced_Dataset_to_Train_and_Test_Deep_Learning_CVPRW_2020_paper.html">The paper is available via open access</a></p>
+<p>The GCS bucket is split into subfolders containing data, checkpoints, training/testing splits and a <a href="https://stacspec.org">STAC</a> compliant catalogue.</p>
+<p>For additional details on how the data is structured and what is represented in the meta data, head over to the <a href="https://github.com/cloudtostreet/Sen1Floods11/tree/master">github repo</a></p>
+<div id="b642e3fc-48f9-4e49-9ffc-230daec0d610" class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>path_data1 <span class="op">=</span> Path(<span class="st">'/home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a1d3baa4-d879-481a-b4e7-0d4646029390" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">-</span>l <span class="op">/</span>home<span class="op">/</span>ba_ch<span class="op">/</span>nbs<span class="op">/</span>gis<span class="op">-</span>exploration<span class="op">/</span>data<span class="op">/</span>downloads<span class="op">/</span>v1<span class="fl">.1</span><span class="op">/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>total 10256
+-rw-r--r-- 1 ba_ch ba_ch    14092 Oct 15  2020 Sen1Floods11_Metadata.geojson
+drwxr-xr-x 6 ba_ch ba_ch     4096 Mar 10 16:03 catalog
+-rw-r--r-- 1 ba_ch ba_ch 10467733 Oct 15  2020 catalog.zip
+drwxr-xr-x 2 ba_ch ba_ch     4096 Mar 10 16:31 checkpoints
+drwxr-xr-x 4 ba_ch ba_ch     4096 Mar 10 18:16 data
+drwxr-xr-x 4 ba_ch ba_ch     4096 Mar 10 18:19 splits</code></pre>
+</div>
+</div>
+<p>Creating functions to explore the dataset structure. I’ll work on ensuring that the function runs as expected before refactoring and chucking it into a class.</p>
+<p>Run simplified function with debug prints.</p>
+<div id="fea592af-f9ba-465d-996b-1ecf6519ccc7" class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_check(root_dir):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    root_dir <span class="op">=</span> <span class="bu">str</span>(root_dir)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Checking directory: </span><span class="sc">{</span>root_dir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(root_dir):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Path doesn't exist: </span><span class="sc">{</span>root_dir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">False</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    file_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.walk(root_dir):</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        file_count <span class="op">+=</span> <span class="bu">len</span>(filenames)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Found directory: </span><span class="sc">{</span>dirpath<span class="sc">}</span><span class="ss"> with </span><span class="sc">{</span><span class="bu">len</span>(filenames)<span class="sc">}</span><span class="ss"> files"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(filenames) <span class="op">&gt;</span> <span class="dv">0</span>: <span class="bu">print</span>(<span class="ss">f"Sample file: </span><span class="sc">{</span>filenames[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Total files found: </span><span class="sc">{</span>file_count<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> file_count <span class="op">&gt;</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="7ed55be5-9e6b-4986-9abb-d3ea6c4f5c0c" class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>simple_check(path_data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Checking directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data with 0 files
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events with 0 files
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled with 0 files
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled/LabelHand with 446 files
+Sample file: Sri-Lanka_321316_LabelHand.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled/JRCWaterHand with 446 files
+Sample file: India_747992_JRCWaterHand.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled/S1OtsuLabelHand with 446 files
+Sample file: Spain_2523247_S1OtsuLabelHand.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled/S2Hand with 446 files
+Sample file: Spain_2594119_S2Hand.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/HandLabeled/S1Hand with 446 files
+Sample file: India_103447_S1Hand.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/WeaklyLabeled with 0 files
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/WeaklyLabeled/S2IndexLabelWeak with 4385 files
+Sample file: Paraguay_8435789_S2IndexLabelWeak.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/WeaklyLabeled/S1Weak with 4384 files
+Sample file: USA_6224033_S1Weak.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/WeaklyLabeled/S2Weak with 4384 files
+Sample file: Colombia_3229730_S2Weak.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/flood_events/WeaklyLabeled/S1OtsuLabelWeak with 4384 files
+Sample file: Mekong_3211831_S1OtsuLabelWeak.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/perm_water with 0 files
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/perm_water/S1Perm with 814 files
+Sample file: sentinel_1_152_rural_156.5748410406182_-8.001183516149558.tif
+Found directory: /home/ba_ch/nbs/gis-exploration/data/downloads/v1.1/data/perm_water/JRCPerm with 814 files
+Sample file: water_2_537_inhabited_-61.26831602040957_13.200076188968426.tif
+Total files found: 21395</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre><code>True</code></pre>
+</div>
+</div>
+<p>21395 checks out after manual confirmation. Lets flesh out this function.</p>
+<div id="b9ae8029-ca52-478b-b24b-74a8153da594" class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> explore_data(root_dir):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Explore the structure of the Sen1Floods11 dataset, handling multiple levels of folders</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">    and subfolders.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    root_dir <span class="op">=</span> <span class="bu">str</span>(root_dir)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(root_dir):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: Path </span><span class="sc">{</span>root_dir<span class="sc">}</span><span class="ss"> does not exist"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {}</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    dataset_info <span class="op">=</span> {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'total_size_gb'</span>: <span class="dv">0</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'num_files'</span> : <span class="dv">0</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'file_types'</span>: {},</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">'folders'</span>: {},</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">'subfolders_structure'</span>: {},</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'tiff_stats'</span>: {</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">'dimensions'</span>: [],</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">'bands_count'</span>: {},</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">'crs_types'</span>: {}</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Walk through directories and files</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> dirpath, dirnames, filenames <span class="kw">in</span> os.walk(root_dir):</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        rel_path <span class="op">=</span> os.path.relpath(dirpath, root_dir)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rel_path <span class="op">==</span> <span class="st">'.'</span>:</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>            rel_path <span class="op">=</span> <span class="st">'root'</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Parse folder structure</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        path_parts <span class="op">=</span> rel_path.split(os.sep)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        current_level <span class="op">=</span> dataset_info[<span class="st">'subfolders_structure'</span>]</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Nested folder dictionary</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rel_path <span class="op">!=</span> <span class="st">'root'</span>:</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> i, part <span class="kw">in</span> <span class="bu">enumerate</span>(path_parts):</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> part <span class="kw">not</span> <span class="kw">in</span> current_level:</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>                    current_level[part] <span class="op">=</span> {<span class="st">'files'</span>: <span class="dv">0</span>, <span class="st">'size_mb'</span>: <span class="dv">0</span>, <span class="st">'subfolders'</span>: {}}</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> i <span class="op">&lt;</span> <span class="bu">len</span>(path_parts) <span class="op">-</span> <span class="dv">1</span> :</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>                    current_level <span class="op">=</span> current_level[part][<span class="st">'subfolders'</span>]</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span>:</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>                    current_folder <span class="op">=</span> current_level[part]</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: current_folder <span class="op">=</span> dataset_info[<span class="st">'subfolders_structure'</span>]</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add folder info</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        dataset_info[<span class="st">'folders'</span>][rel_path] <span class="op">=</span> {</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">'num_files'</span>: <span class="bu">len</span>(filenames),</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>            <span class="st">'size_mb'</span>: <span class="dv">0</span>,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>            <span class="st">'file_types'</span>: {},</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Process files</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> filename <span class="kw">in</span> filenames:</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>            filepath <span class="op">=</span> os.path.join(dirpath, filename)</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">try</span>: <span class="co"># added additional exception handling </span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>                file_size <span class="op">=</span> os.path.getsize(filepath) <span class="op">/</span> (<span class="dv">1024</span><span class="op">*</span><span class="dv">1024</span>) <span class="co"># result in MBs</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">except</span> (<span class="pp">FileNotFoundError</span>, <span class="pp">PermissionError</span>) <span class="im">as</span> e: </span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"Error accessing </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update dataset info</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'num_files'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'total_size_gb'</span>] <span class="op">+=</span> file_size <span class="op">/</span> <span class="dv">1024</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'folders'</span>][rel_path][<span class="st">'size_mb'</span>] <span class="op">+=</span> file_size</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update the nested structure of folders</span></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> rel_path <span class="op">!=</span> <span class="st">'root'</span>:</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>                current_folder[<span class="st">'files'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>                current_folder[<span class="st">'size_mb'</span>] <span class="op">+=</span> file_size</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Track file types</span></span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>            file_ext <span class="op">=</span> os.path.splitext(filename)[<span class="dv">1</span>].lower()</span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> file_ext <span class="kw">not</span> <span class="kw">in</span> dataset_info[<span class="st">'file_types'</span>]:</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>                dataset_info[<span class="st">'file_types'</span>][file_ext] <span class="op">=</span> {<span class="st">'count'</span>: <span class="dv">0</span>, <span class="st">'size_mb'</span>: <span class="dv">0</span>}</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'file_types'</span>][file_ext][<span class="st">'count'</span>] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'file_types'</span>][file_ext][<span class="st">'size_mb'</span>] <span class="op">+=</span> file_size</span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Track file types per folder</span></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> file_ext <span class="kw">not</span> <span class="kw">in</span> dataset_info[<span class="st">'folders'</span>][rel_path][<span class="st">'file_types'</span>]:</span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>                dataset_info[<span class="st">'folders'</span>][rel_path][<span class="st">'file_types'</span>][file_ext] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>            dataset_info[<span class="st">'folders'</span>][rel_path][<span class="st">'file_types'</span>][file_ext] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Get info on TIFF files (limited sample)</span></span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> file_ext <span class="kw">in</span> [<span class="st">'.tif'</span>, <span class="st">'.tiff'</span>]:</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">with</span> rasterio.<span class="bu">open</span>(filepath) <span class="im">as</span> src:</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> <span class="bu">len</span>(dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'dimensions'</span>]) <span class="op">&lt;</span> <span class="dv">10</span>: <span class="co"># Sample upto 10</span></span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>                            dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'dimensions'</span>].append({</span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'file'</span>: os.path.relpath(filepath, root_dir),</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'width'</span>: src.width,</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'height'</span>: src.height,</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'count'</span>: src.count,</span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'crs'</span>: <span class="bu">str</span>(src.crs),</span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'transform'</span>: <span class="bu">str</span>(src.transform),</span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>                                <span class="st">'size_mb'</span>: file_size</span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>                            })</span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># Track band counts</span></span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>                        band_count <span class="op">=</span> src.count</span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> band_count <span class="kw">not</span> <span class="kw">in</span> dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'bands_count'</span>]:</span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a>                            dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'bands_count'</span>][band_count] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>                        dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'bands_count'</span>][band_count] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>                        </span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>                        <span class="co"># Track CRS types</span></span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>                        crs_str <span class="op">=</span> <span class="bu">str</span>(src.crs)</span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> crs_str <span class="kw">not</span> <span class="kw">in</span> dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'crs_types'</span>]:</span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>                            dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'crs_types'</span>][crs_str] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>                        dataset_info[<span class="st">'tiff_stats'</span>][<span class="st">'crs_types'</span>][crs_str] <span class="op">+=</span> <span class="dv">1</span>   </span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e: <span class="bu">print</span>(<span class="ss">f"Error reading </span><span class="sc">{</span>filepath<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Round the total size, folder sizes and file type sizes</span></span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>    dataset_info[<span class="st">'total_size_gb'</span>] <span class="op">=</span> <span class="bu">round</span>(dataset_info[<span class="st">'total_size_gb'</span>], <span class="dv">2</span>)</span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> folder <span class="kw">in</span> dataset_info[<span class="st">'folders'</span>]:</span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>        dataset_info[<span class="st">'folders'</span>][folder][<span class="st">'size_mb'</span>] <span class="op">=</span> <span class="bu">round</span>(dataset_info[<span class="st">'folders'</span>][folder][<span class="st">'size_mb'</span>], <span class="dv">2</span>)</span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> file_type <span class="kw">in</span> dataset_info[<span class="st">'file_types'</span>]:</span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>        dataset_info[<span class="st">'file_types'</span>][file_type][<span class="st">'size_mb'</span>] <span class="op">=</span> <span class="bu">round</span>(dataset_info[<span class="st">'file_types'</span>][file_type][<span class="st">'size_mb'</span>], <span class="dv">2</span>)</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dataset_info</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="75126bfb-c677-42db-8fd6-76b30f88ebb0" class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>explore_data(path_data1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>{'total_size_gb': 33.81,
+ 'num_files': 21395,
+ 'file_types': {'.tif': {'count': 21394, 'size_mb': 34621.66},
+  '': {'count': 1, 'size_mb': 0.01}},
+ 'folders': {'root': {'num_files': 0, 'size_mb': 0, 'file_types': {}},
+  'flood_events': {'num_files': 0, 'size_mb': 0, 'file_types': {}},
+  'flood_events/HandLabeled': {'num_files': 0, 'size_mb': 0, 'file_types': {}},
+  'flood_events/HandLabeled/LabelHand': {'num_files': 446,
+   'size_mb': 2.44,
+   'file_types': {'.tif': 446}},
+  'flood_events/HandLabeled/JRCWaterHand': {'num_files': 446,
+   'size_mb': 0.49,
+   'file_types': {'.tif': 446}},
+  'flood_events/HandLabeled/S1OtsuLabelHand': {'num_files': 446,
+   'size_mb': 1.63,
+   'file_types': {'.tif': 446}},
+  'flood_events/HandLabeled/S2Hand': {'num_files': 446,
+   'size_mb': 971.42,
+   'file_types': {'.tif': 446}},
+  'flood_events/HandLabeled/S1Hand': {'num_files': 446,
+   'size_mb': 695.7,
+   'file_types': {'.tif': 446}},
+  'flood_events/WeaklyLabeled': {'num_files': 0,
+   'size_mb': 0,
+   'file_types': {}},
+  'flood_events/WeaklyLabeled/S2IndexLabelWeak': {'num_files': 4385,
+   'size_mb': 31.47,
+   'file_types': {'.tif': 4384, '': 1}},
+  'flood_events/WeaklyLabeled/S1Weak': {'num_files': 4384,
+   'size_mb': 6983.46,
+   'file_types': {'.tif': 4384}},
+  'flood_events/WeaklyLabeled/S2Weak': {'num_files': 4384,
+   'size_mb': 24501.7,
+   'file_types': {'.tif': 4384}},
+  'flood_events/WeaklyLabeled/S1OtsuLabelWeak': {'num_files': 4384,
+   'size_mb': 17.31,
+   'file_types': {'.tif': 4384}},
+  'perm_water': {'num_files': 0, 'size_mb': 0, 'file_types': {}},
+  'perm_water/S1Perm': {'num_files': 814,
+   'size_mb': 1410.32,
+   'file_types': {'.tif': 814}},
+  'perm_water/JRCPerm': {'num_files': 814,
+   'size_mb': 5.72,
+   'file_types': {'.tif': 814}}},
+ 'subfolders_structure': {'flood_events': {'files': 0,
+   'size_mb': 0,
+   'subfolders': {'HandLabeled': {'files': 0,
+     'size_mb': 0,
+     'subfolders': {'LabelHand': {'files': 446,
+       'size_mb': 2.4355697631835938,
+       'subfolders': {}},
+      'JRCWaterHand': {'files': 446,
+       'size_mb': 0.4912405014038086,
+       'subfolders': {}},
+      'S1OtsuLabelHand': {'files': 446,
+       'size_mb': 1.6329212188720703,
+       'subfolders': {}},
+      'S2Hand': {'files': 446, 'size_mb': 971.4201326370239, 'subfolders': {}},
+      'S1Hand': {'files': 446,
+       'size_mb': 695.7015371322632,
+       'subfolders': {}}}},
+    'WeaklyLabeled': {'files': 0,
+     'size_mb': 0,
+     'subfolders': {'S2IndexLabelWeak': {'files': 4385,
+       'size_mb': 31.47349739074707,
+       'subfolders': {}},
+      'S1Weak': {'files': 4384,
+       'size_mb': 6983.455281257629,
+       'subfolders': {}},
+      'S2Weak': {'files': 4384,
+       'size_mb': 24501.70032596588,
+       'subfolders': {}},
+      'S1OtsuLabelWeak': {'files': 4384,
+       'size_mb': 17.312772750854492,
+       'subfolders': {}}}}}},
+  'perm_water': {'files': 0,
+   'size_mb': 0,
+   'subfolders': {'S1Perm': {'files': 814,
+     'size_mb': 1410.3182640075684,
+     'subfolders': {}},
+    'JRCPerm': {'files': 814,
+     'size_mb': 5.719854354858398,
+     'subfolders': {}}}}},
+ 'tiff_stats': {'dimensions': [{'file': 'flood_events/HandLabeled/LabelHand/Sri-Lanka_321316_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 81.50|\n| 0.00,-0.00, 8.00|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.006531715393066406},
+   {'file': 'flood_events/HandLabeled/LabelHand/Sri-Lanka_233609_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 81.09|\n| 0.00,-0.00, 7.86|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.0037832260131835938},
+   {'file': 'flood_events/HandLabeled/LabelHand/Nigeria_984831_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 5.75|\n| 0.00,-0.00, 8.88|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.009843826293945312},
+   {'file': 'flood_events/HandLabeled/LabelHand/Mekong_922373_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 105.97|\n| 0.00,-0.00, 12.23|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.015026092529296875},
+   {'file': 'flood_events/HandLabeled/LabelHand/Paraguay_205585_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00,-56.80|\n| 0.00,-0.00,-24.42|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.0009679794311523438},
+   {'file': 'flood_events/HandLabeled/LabelHand/Paraguay_148318_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00,-56.30|\n| 0.00,-0.00,-23.92|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.0031185150146484375},
+   {'file': 'flood_events/HandLabeled/LabelHand/Sri-Lanka_551926_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 81.45|\n| 0.00,-0.00, 8.00|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.003987312316894531},
+   {'file': 'flood_events/HandLabeled/LabelHand/USA_527077_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00,-95.25|\n| 0.00,-0.00, 38.59|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.0017709732055664062},
+   {'file': 'flood_events/HandLabeled/LabelHand/India_324254_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00, 93.32|\n| 0.00,-0.00, 26.03|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.003131866455078125},
+   {'file': 'flood_events/HandLabeled/LabelHand/USA_348639_LabelHand.tif',
+    'width': 512,
+    'height': 512,
+    'count': 1,
+    'crs': 'EPSG:4326',
+    'transform': '| 0.00, 0.00,-94.98|\n| 0.00,-0.00, 39.00|\n| 0.00, 0.00, 1.00|',
+    'size_mb': 0.004900932312011719}],
+  'bands_count': {1: 10920, 13: 4830, 2: 5644},
+  'crs_types': {'EPSG:4326': 21394}}}</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/bachaudhry\.github\.io\/gis-exploration");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/bachaudhry/gis-exploration/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
